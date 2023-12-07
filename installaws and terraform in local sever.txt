@@ -1,0 +1,16 @@
+create the server 
+Prerequisites
+Centos, N/W- Bridge take ip and connect with mobexterm
+
+commands
+
+sudo yum install pyhton3
+yum -y install epel-release
+yum install python3-pip -y
+yum install awscli
+aws --version
+
+sudo yum install -y yum-utils shadow-utils
+sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+sudo yum -y install terraform
+

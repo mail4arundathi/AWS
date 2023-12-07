@@ -1,0 +1,33 @@
+#How to copy an EC2 AMI from one AWS Region to Another 
+
+1.Login to AWS  
+
+2.Create or Launch an EC2 instance.
+
+3. Select the instance---- Actions---- Image and templates--- Create image--- <image name>
+<description>--- if required add volume----create image.
+
+4.Images-- AMIs--- select the AMI created--- Actions--- select --- Copy AMI-- Destination Region--Select required Region-- Select Copy AMI.
+
+
+
+# How to Create Instance from Snapshot.
+
+1.  Login to AWS. --- Goto Snapshots----  select the required snapshot ---- Actions---
+select Create Image from the snapshots.
+
+
+Give <Image name>, <description>--- keep every thing default-- Select--- Create image.
+
+
+2. Go to AMIs--- images will be created ---- select the image created --- Actions----
+
+select--- Copy AMI--- <AMI copy name>--- Select Destination Region--- enable Copy tags--- Copy AMI
+
+
+
+# Copy Snapshot from one Region to another Region.
+
+1. Login to AWS ---- Goto Snapshots--- Select required snapshot-- Copy snapshot---<give Destination Region>
+
+Copy snaphot.

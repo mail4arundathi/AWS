@@ -1,0 +1,88 @@
+# mount EC2 to S3 bucket
+
+1. Launch an Instance and connect to it.
+next connect to root user as follows.
+sudo su
+cd
+yum update
+Note: linux 2 we can download and update the packages directly in linux 2023 follow the below steps.
+To know the version use following command
+cat /etc/os-release
+
+2. Install dependicies.
+sudo yum install automake fuse fuse-devel gcc-c++ git libcurl-devel libxml2-devel make openssl-devel
+
+3. Install s3fs 
+we can clone from git or directly download from the website.
+
+from git use below
+git clone https://github.com/s3fs-fuse/s3fs-fuse.git
+
+ls -la
+
+cd s3fs-fuse
+
+./autogen.sh
+
+./configure
+
+make
+
+sudo make install
+
+
+
+or directly from website use below
+wget "https://sourceforge.net/projects/s3fs.mirror/files/v1.92/Release%20version%201.92.tar.gz/download" -O s3fs-1.92.tar.gz
+
+#tar -xzvf s3fs-1.92.tar.gz
+
+#ls -la
+
+#cd s3fs-fuse-s3fs-fuse-619e866
+
+#./autogen.sh
+
+#./configure
+
+#make
+
+#sudo make install
+
+which s3fs
+
+step4: make a directory in mount point
+sudo /mkdir /mnt/<directoryname>
+cd /mnt/<directoryname>
+
+step5; Now syncronise the directory with s3 bucket
+
+aws s3 sync /mnt/<directoyname> s3://bucketname>
+
+
+step6:Now you can run the command to mount the S3 bucket as a filesystem
+sudo s3fs <your-s3-bucket-name> /mnt/<directoryname> -o iam_role=<iam-role-name> -o use_cache=/tmp -o allow_other -o uid=1001 -o mp_umask=002 -o multireq_max=5 -o use_path_request_style -o url=https://s3-{{aws_region}}.amazonaws.com
+
+Note change bucketname,directoryname and iam role if needed or delete
+ 
+step7 verify mount status
+ df -h |grep s3fs
+ Now /mnt/<directory> is mounted on s3
+
+step8 permanently mount 
+vi /etc/fstab
+
+s3fs#<your-s3-bucket-name> /mnt/<directoryname> fuse _netdev,iam_role=<iam-role-name>,allow_other 0 0
+:wq
+step9: create some files
+cd /mnt/<directoryname>
+touch file.json file.py etc
+
+cd mkdir<new directory name>
+touch test1.xls test1.pdf
+
+check in s3 bucket 
+
+step10:Restart the the instance to check
+
+reboot or restart the instance and repeat step 9 files to be created it should replicate in s3 bucket 

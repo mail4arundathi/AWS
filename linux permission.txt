@@ -1,0 +1,49 @@
+How to setup permission after creating EC2 linux instance.
+
+1.connect to the instance using ur key
+
+sudo su # root user
+
+#create password for root user so than key is not required
+
+sudo passwd root
+
+#how to add new user 
+sudo adduser <username>
+sudo passwd <username>
+
+#After creating user and changing password we are unable to login, so change ssh file
+
+vi /etc/ssh/sshd_config
+
+I
+PasswordAuthentication yes #change no to yes here
+PermitRootLogin yes #copy this 
+
+esc:wq #to save 
+
+#Now again restart sshd
+systemctl restart sshd
+
+
+Now login using publicip and user/root with password given
+
+#since user dont have permissions at root level so change
+
+vi /etc/sudoers
+I
+<username>  ALL=(ALL)       ALL
+
+#OR we can add group and assign user to the group
+sudo groupadd <groupname>
+sudo usermod -aG <groupname> <username>
+
+#to check
+id <username>
+group <username>
+
+#how to give permissions to group
+vi /etc/sudoers
+I
+
+%<groupname> ALL=(ALL)       ALL

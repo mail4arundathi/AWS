@@ -1,0 +1,37 @@
+1. Launch linux EC2 instance in AWS Console.Connect to the instance.
+
+2.Install centos
+
+sudo su
+yum update
+wget http://repo.extreme-ix.org/centos/7.9.2009/isos/x86_64/CentOS-7-x86_64-Minimal-2207-02.iso
+
+3.Install dependices
+yum install -y gcc-c++ wget libxml2-devel ncurses-devel sqlite-devel
+
+4.Download Dahdi in cd /usr/src/
+wget https://downloads.asterisk.org/pub/telephony/dahdi-linux-complete/dahdi-linux-complete-2.10.2+2.10.2.tar.gz
+
+ls -la
+
+unzip the Dahdi
+
+tar xvf dahdi-linux-complete-2.10.2+2.10.2.tar.gz
+
+cd dahdi-linux-complete-2.10.2+2.10.2
+
+make 
+Note: if error found then install latest kernal
+
+yum install kernel* -y
+
+Note; After installing kernal reboot is enough as centos boots to the latest kernel
+
+
+5. now make in dhandi 
+cd /usr/src/ 
+ls -la
+cd dahdi-linux-complete-2.10.2+2.10.2
+
+ 
+ 

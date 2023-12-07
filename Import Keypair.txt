@@ -1,0 +1,18 @@
+#How to import the Keypair.
+prerequisites:
+1.Create a keypair <xxx.pem>
+2.convert the key using puttygen and save as publickey.
+
+#Steps to Follow: 
+
+1.Login to aws console and select the region where we want to import the key.
+
+2.Network & Security -- select-- Key Pairs
+Actions--- select-- import key pair
+
+3.Under Import Settings--Give required Name <test> 
+
+Now Browse the public key which is to be imported and click Import key pair
+
+4. create an instance with the imported key
+

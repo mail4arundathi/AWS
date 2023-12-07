@@ -1,0 +1,93 @@
+create directory and files initially
+
+mkdir infra
+
+cd infra
+
+mkdir modules
+
+cd modules
+
+mkdir ec2instance
+
+cd ec2instance
+
+touch main.tf variable.tf output.tf
+
+vi main.tf
+# modules/ec2-instance/main.tf
+
+resource "aws_instance" "example" {
+  ami           = var.ami_id
+  instance_type = var.instance_type
+  key_name      = var.key_name
+
+  tags = {
+    Name = var.instance_name
+  }
+}
+
+output "instance_ip" {
+  value = aws_instance.example.public_ip
+}
+
+:wq
+
+vi variable.tf
+
+# modules/ec2-instance/variables.tf
+
+variable "ami_id" {
+  description = "The ID of the AMI to use for the EC2 instance"
+}
+
+variable "instance_type" {
+  description = "The type of EC2 instance"
+}
+
+variable "key_name" {
+  description = "The name of the SSH key pair"
+}
+
+variable "instance_name" {
+  description = "The name tag for the EC2 instance"
+}
+
+:wq
+
+vi output.tf
+
+# modules/ec2-instance/outputs.tf
+
+output "public_ip" {
+  value = aws_instance.example.public_ip
+}
+
+:wq
+
+now come out of the modules and create main.tf in fra directory. replace the region AMI,source Path,type of instance, keypair 
+
+# main.tf
+
+provider "aws" {
+  region = "ap-south-1"
+}
+
+module "my_ec2" {
+  source = "./module/ec2instance"
+
+  ami_id        = "ami-046b09571347e68fd"
+  instance_type = "t2.micro"
+  key_name      = "volume"
+  instance_name = "my-ec2-instance"
+}
+
+output "ec2_instance_ip" {
+  value = module.my_ec2.instance_ip
+}
+:wq
+
+terraform init
+terraform plan
+terraform apply
+

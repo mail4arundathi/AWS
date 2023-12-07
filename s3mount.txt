@@ -1,0 +1,307 @@
+#How to Mount EC2 Linux instance on S3
+Prerequisites:
+#Create an IAM user with S3 full access 
+#copy access and secret access key 
+#Create an S3bucket #Enable ACL
+#launch an Linux Instance and connect to the instance
+
+
+Method-I (from git hub)
+
+#yum update
+1.check version
+#cat /etc/os-release
+
+2.Install dependencies
+
+#sudo yum install automake fuse fuse-devel gcc-c++ git libcurl-devel libxml2-devel make openssl-devel
+
+3.clone s3fs source code from git
+
+#git clone https://github.com/s3fs-fuse/s3fs-fuse.git
+ls -la
+
+4.Install the code
+
+cd s3fs-fuse
+./autogen.sh
+./configure --prefix=/usr --with-openssl
+make
+sudo make install
+
+5. check the s3fs command and installation
+
+which s3fs
+
+6.Getting access key and secret key,Paste the access key and secret key
+ create a new file in /etc with the name passwd-s3fs and paste the access key and secret key as below
+
+touch /etc/passwd-s3fs
+vim /etc/passwd-s3fs
+I
+Your_accesskey:Your_secretkey
+
+7.Change the permission of the file
+
+sudo chmod 640 /etc/passwd-s3fs
+
+8. Now mount s3 bucket
+
+Note: if your bucketname have no dot follow below steps 
+
+mkdir /mys3bucket
+
+s3fs <your_bucketname> -o use_cache=/tmp -o allow_other -o uid=1001 -o mp_umask=002 -o multireq_max=5 /mys3bucket
+
+which s3fs /usr/local/bin/s3fs
+
+df -Th
+
+df -Th /mys3bucket
+
+echo "this is a test file to check s3fs" >> test.txt
+
+
+
+
+
+#How to Mount the s3 bucket at storage level not from git
+
+#yum update
+    
+#sudo yum install automake fuse fuse-devel gcc-c++ git libcurl-devel libxml2-devel make openssl-devel
+
+#wget "https://sourceforge.net/projects/s3fs.mirror/files/v1.92/Release%20version%201.92.tar.gz/download" -O s3fs-1.92.tar.gz
+#ls -la
+
+#tar -xzvf s3fs-1.92.tar.gz
+
+#ls -la
+
+#cd s3fs-fuse-s3fs-fuse-619e866
+
+#./autogen.sh
+
+#./configure
+
+#make
+
+#sudo make install
+
+#vim /etc/passwd-s3fs
+I
+accesskey:secretaccesskey
+
+#sudo chmod 600 /etc/passwd-s3fs
+
+#sudo mkdir /mnt/my-s3-bucket
+
+#s3fs s3testrec /mnt/my-s3-bucket -o passwd_file=/etc/passwd-s3fs
+
+#df -Th
+
+cd /mnt/my-s3-bucket
+  
+touch file{1..100}
+
+ls -l
+
+check in aws s3 bucket by refreshing th page
+
+
+
+
+Method-III
+#How to mount s3 on root 
+#yum update
+    
+#sudo yum install automake fuse fuse-devel gcc-c++ git libcurl-devel libxml2-devel make openssl-devel
+
+#wget "https://sourceforge.net/projects/s3fs.mirror/files/v1.92/Release%20version%201.92.tar.gz/download" -O s3fs-1.92.tar.gz
+#ls -la
+
+#tar -xzvf s3fs-1.92.tar.gz
+
+#ls -la
+
+#cd s3fs-fuse-s3fs-fuse-619e866
+cd s3fs-fuse
+./autogen.sh
+./configure --prefix=/usr --with-openssl
+make
+sudo make install
+    #echo AKIAZ3QVLAQZH26YRXBQ:H6WvV2xt14XSRqkDg3OgBHfUxmu7rIGTUprQr7G8 > ${HOME}/.s3accesspassword
+   13  ls -l
+   14  ls -la
+   15  ls -ld /root/
+   16  ls -la /root/
+   17  chmod 600 /root/.s3userpassword
+   18  mkdir /bucketmount
+   19  ls /
+   20 which s3fs
+   22  s3fs <bucketname> /bucketmount -o passwd_file=${HOME}/.s3accesspassword
+   23  mount | grep bucket
+   24  cd /bucketmount/
+   25  ls
+   26  touch file{1..100}
+   27  ls
+   28  cd
+   29  history
+
+ s3fs <s3mount333> -o use_cache=/tmp -o allow_other -o uid=1001 -o mp_umask=002 -o multireq_max=5 /<vitelbucket>
+
+
+
+
+
+ 1  yum update
+    2  sudo yum install automake fuse fuse-devel gcc-c++ git libcurl-devel libxml2-devel make openssl-devel
+    3  git clone https://github.com/s3fs-fuse/s3fs-fuse.git
+    4  cd s3fs-fuse
+    5  ./autogen.sh
+    6  
+    7  ./configure --prefix=/usr --with-openssl
+    8  make
+    9  sudo make install
+   10  which s3fs
+   11  touch /etc/passwd-s3fs
+   12  
+   14  vi /etc/passwd-s3fs
+
+AKIAZ3QVLAQZJONS6NY6:xsJm4Nqdpqp4QGNONzyO031BI+mdR8bXJC58mjis
+~
+
+   15  sudo chmod 640 /etc/passwd-s3fs
+   16  mkdir /vitelbucket
+   17  ls
+   18  s3fs s3mount333 -o use_cache=/tmp -o allow_other -o uid=1001 -o mp_umask=002 -o multireq_max=5 /vitelbucket
+   19  vi /var/log/messages
+   20  which s3fs
+   21  vi /etc/rc.local
+   22  df -Th
+   23  df -Th/vitelbucket
+   24  df -Th/vitelbucket
+   25  cd /vitelbucket
+   26  echo "this is a test" >>test.txt
+   27  ls
+   28  echo "this is test" >>test1.txt
+   29  ls
+   30  touch {1:25}
+   31  ls
+   32  touch file{1:10}
+   33  ls
+   34  touch {1.10}
+   35  ls
+   36  touch file{1..10}
+   37  ls
+   38  history
+
+
+
+
+ cd
+    2  df -Th
+    3  vi /etc/fstab
+    4  yum update
+    5  sudo yum install automake fuse fuse-devel gcc-c++ git libcurl-devel libxml2-devel make openssl-devel
+    6  wget "https://sourceforge.net/projects/s3fs.mirror/files/v1.92/Release%20version%201.92.tar.gz/download" -O s3fs-1.92.tar.gz
+    7  tar -xzvf s3fs-1.92.tar.gz
+    8  cd s3fs-fuse-s3fs-fuse-619e866
+    9  cd s3fs-fuse
+   10  ls
+   11  ls -la
+   12  ./autogen.sh
+   13  ls
+   14  ./configure
+   15  ls
+   16  make
+   17  sudo make install
+   18  which s3fs
+   19  cd
+   20  which s3fs
+   21  mkdir bucket
+   22  ls -l
+   23  mkdir /bucket1
+   24  ls
+   25  ls -l
+   26  df -Th
+   27  mount /bucket1
+   28  vi /etc/fstab
+   29  mkdir /mnt/bucket1
+   30  ls -l
+   31  ls -la
+   32  df -hT
+   33  mount -a
+   34  mount
+   35  clear
+   36  ls -ld
+   37  ls -ld /root/
+   38  ls -la /root/
+   39  df -Th
+   40  cd /mnt/bucket1
+   41  touch test.py test.txt test.json
+   42  ls -l
+   43  cd..
+   44  cd ..
+   45  ls
+   46  pwd
+   47  ls
+   48  tree
+   49  df -hT
+   50  mount
+   51  fdisk -l
+   52  cd ..
+   53  df -Th
+   54  clear
+   55  aws s3 sync /mnt/bucket1 s3://linubuck
+   56  aws configure
+   57  aws s3 sync /mnt/bucket1 s3://linubuck
+   58  $ sudo s3fs linubuck /mnt/s3-bucket -o use_cache=/tmp -o allow_other -o uid=1001 -o mp_umask=002 -o multireq_max=5 -o use_path_request_style -o url=https://s3-{{aws_region}}.amazonaws.com -o dbglevel=info -f -o curldbg
+   59  $ sudo s3fs linubuck /mnt/s3-bucket -o iam_role=s3user -o use_cache=/tmp -o allow_other -o uid=1001 -o mp_umask=002 -o multireq_max=5 -o use_path_request_style -o url=https://s3-{{aws_region}}.amazonaws.com -o dbglevel=info -f -o curldbg
+   60  sudo s3fs linubuck /mnt/s3-bucket -o use_cache=/tmp -o allow_other -o uid=1001 -o mp_umask=002 -o multireq_max=5 -o use_path_request_style -o url=https://s3-{{aws_region}}.amazonaws.com
+   61  $ sudo s3fs linubuck /mnt/bucket1 -o use_cache=/tmp -o allow_other -o uid=1001 -o mp_umask=002 -o multireq_max=5 -o use_path_request_style -o url=https://s3-{{aws_region}}.amazonaws.com -o dbglevel=info -f -o curldbg
+   62  sudo s3fs linubuck /mnt/bucket1 -o use_cache=/tmp -o allow_other -o uid=1001 -o mp_umask=002 -o multireq_max=5 -o use_path_request_style -o url=https://s3-{{aws_region}}.amazonaws.com
+   63  sudo s3fs linubuck /mnt/bucket1 -o use_cache=/tmp -o allow_other -o uid=1001 -o mp_umask=002 -o multireq_max=5 -o use_path_request_style -o url=https://s3-{{aws_region}}.amazonaws.com
+   64  sudo s3fs linubuck /mnt/bucket1 -o use_cache=/tmp -o allow_other -o uid=1001 -o mp_umask=002 -o multireq_max=5 -o use_path_request_style -o url=https://s3-{{aws_region}}.amazonaws.com
+   65  cd /mnt/bucket1
+   66  ls
+   67  rm test.json
+   68  ls
+   69  rm test.py
+   70  rm test.txt
+   71  cd ..
+   72   d
+   73  cd
+   74  sudo s3fs linubuck /mnt/bucket1 -o use_cache=/tmp -o allow_other -o uid=1001 -o mp_umask=002 -o multireq_max=5 -o use_path_request_style -o url=https://s3-{{aws_region}}.amazonaws.com
+   75  ls -l
+   76  df -hT
+   77  df -h | grep s3fs
+   78  cd /mnt/bucket1
+   79  touch text.py text.json text.xls
+   80  ls
+   81  sudo vi /etc/fstab
+   82  cd ...
+   83  cd..
+   84  cd
+   85  cd
+   86  vim /etc/fstab
+   87  mount -a
+   88  cd /mnt/bucket1
+   89  rm touch.py touch.json touch.xls
+   90  rm test.py test.json test.xls
+   91  ls
+   92  rm text.json text.py text.xls
+   93  cd ..
+   94  cd ..
+   95  cd
+   96  mount -a
+   97  vim /etc/fstab
+   98  mount -a
+   99  ls -l
+  100  ls -la
+  101  mount
+  102  sudo reboot
+  103  cd
+  104  df df -h | grep s3fs
+  105  df -h | grep s3fs
+  106  history

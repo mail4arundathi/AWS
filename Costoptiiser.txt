@@ -1,0 +1,17 @@
+After creating cost optimiser it can be deleted from cli only, so create user with following customer policy 
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow", 
+      "Action": "compute-optimizer:UpdateEnrollmentStatus",
+      "Resource": "*"
+    }
+  ]
+}
+
+aws configure
+give the details and paste below command the serive will be deactivated.
+
+aws compute-optimizer update-enrollment-status --status Inactive

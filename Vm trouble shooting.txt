@@ -1,0 +1,23 @@
+After creating VM from oracle box check for netwrok issues connect to the system
+
+ How to enable network interface:
+--------------------------------------------
+#cd /etc/sysconfig/network-scripts/
+#ls
+
+#vi ifcfg-enp0s3 (or) ifcfg-ens33
+	ONBOOT=yes      -->check this entry if 'no' put yes
+		:wq  -->save and exit
+		
+
+#ifdown ifcfg-enp0s3
+#ifup ifcfg-enp0s3
+#systemctl restart network
+
+
+if ifconfig command not found then 
+	#yum install net-tools -y
+	
+Now check ipaddress by using
+	#ifconfig
+	#ip a

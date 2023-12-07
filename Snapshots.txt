@@ -1,0 +1,48 @@
+#How to Create a Snapshots in AWS
+$Daily Snapshots:
+1.	Login to AWS Console.
+2.	Launch an Instance with the required specifications.
+3.	Select Snapshot--- Create the snapshots--- 
+a.	Under snapshot specification:
+i.	Select the instance---
+ii.	Specify instance ID (for which snapshot to be created)
+iii.	Click on Create Snapshot.
+Note: make the remaining setting default.
+$Automatically Create snapshots for instances daily in the same region.
+Prerequisites:
+1.	Instance >=1
+2.	Same Tags (in our case we have the same tags associated with all instances) map tag.
+Steps to be followed:
+1.	Select Lifecycle Manager or search for Lifecycle Manager Service.
+2.	Click on Next step ---- 
+
+3.	Target resources---- Target resource type --- select instance
+
+4.	Target resource tags--- Add instance ID individually or add tags associated with the instances (common tags are preferable)
+
+5.	Description
+Policy description <dailysnapshots>
+6.	Make everything default and click on Next.
+7.	Schedule details:
+i.	Schedule name <dailybackup> or make default
+ii.	Every <24> or select according to requirement
+iii.	Starting at UTC set up according to our required time.
+iv.	Retention type
+1.	Count	keep <1> creates 1 snapshots daily
+2.	Age		Expire from standard tier< period to automatically delete the snapshot after creation>
+8.	Review policy 
+9.	Create a policy
+
+
+
+$Automatically Create snapshots for instances daily in different regions (cross-region)
+
+1.	Repeat steps 1 to 7 as above
+
+8. Select cross-region copy --- Target Region<us-east-2> Expire<1> appropriate time to delete the snapshot after creation.
+9. Review policy 
+10. Create a policy
+Note: Similarly we follow the same as above for monthly snapshots also
+Under schedule details, frequency < select daily/weekly/monthly> and changes are made according to the requirements.
+ 
+

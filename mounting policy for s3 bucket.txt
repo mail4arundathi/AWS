@@ -1,0 +1,28 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "SourceIP",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": [
+                "arn:aws:s3:::s3testrec",
+                "arn:aws:s3:::s3tetstrec/*"
+            ],
+            "Condition": {
+                "Bool": {
+                    "aws:SecureTransport": "true"
+                },
+                "IpAddress": {
+                    "aws:SourceIp": [
+                        "44.214.215.131/32",
+                        "38.143.106.216/32",
+                        "44.204.155.45/32",
+                        "103.211.36.18/32"
+                    ]
+                }
+            }
+        }
+    ]
+}

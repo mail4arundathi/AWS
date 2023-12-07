@@ -1,0 +1,66 @@
+# How to setup Control Tower in AWS
+Step1: Login to AWS with login credentials.
+Step2: Control Tower ----Setup Landing Zone---- 
+•	2 organizational units (OU) are created: Security for the Control Tower shared accounts and Sandbox as a placeholder OU for any user-created AWS accounts.
+•	2 AWS accounts in the Security OU: Log archive and Audit. These are used for centralized logging and auditing respectively.
+•	32 preventive guardrails to enforce policies and 30 detective guardrails to detect violations. This grows continuously.
+•	A native cloud directory with preconfigured groups and single sign-on access using AWS Single Sign-On (SSO).
+•	Account Factory to deploy new AWS accounts within AWS Control Tower using AWS Service Catalog.
+
+# How to add new account under Control Tower
+Step3: Sign in to the master account--- AWS Control Tower--- Account Factory---Create Account--- fill the appropriate details and select create account.
+Note:  
+1.	Should give email id not in use under Account email.
+2.	Can give the same email under IAM Identity Center user email 
+3.	Should select the appropriate organization unit under which the account to be created.
+Eg: Organization Unit--- select registered OU---Production--- required group like VoIP
+4.	We can customize the Account factory for creating an account in the home region or other specific regions.
+5.	Takes some time to enroll the account.
+
+# How to create/ register Organisation unit.
+ Once the account has enrolled.
+Step4: Select Organisation ----- Create Resource---- select organisation unit---- give appropriate name----select parent OU---- Add.
+Note: under Organisation we can create account and register with appropriate OU.
+
+# Assign permissions to Account created
+
+Select IAM Identity Center-----
+Here we can add the existing user name and mail id for specific group 
+
+Permission set----- Create permission set----predefined permission set / custom permission set. Assign to a particular account to restrict permissions.
+
+
+# How to delete an Account under control tower.
+
+ Login to master account--- AWS Service Catalog---- provisioned product--- select account --- actions – terminate.
+
+Then again login to your account (which is to be deleted) with login credential and deactivate the account again permanently. 
+
+
+# Setup our own VPC under Control Tower;
+
+Initially, under infrastructure OU, create your own Network Account, create your own VPC with required private and public subnets, and route the appropriate gateways IGW and NAT.
+
+Create Transit Gateway--- make everything default, enable auto to accept shared attachments, and create Transit gateway.
+
+Select Transit Gateway Attachments ---- give the transit gateway ID ---- Attachment type VPC---select required subnet associate (if required select private or public subnets) and create transit gateway attachments.
+
+Go to Resource Access Manager--- Resource share--- create resource share---  give required name and select transit gateway and select principal to required select organization and review and crate resource share. 
+
+And create your own VPC with required private and public subnets, and route then appropriate gateways IGW and NAT.
+
+
+
+#add a new user under the control tower and give permission.
+
+Select – IAM identity Center—Users	--- Username <username>-
+--- Password---Generate a one-time password that you can share with this user
+--- Email address--username@example.com-- everything default—select next
+
+Select Appropriate Groups for user--- select Next--- select Add user
+
+
+
+#Assign Appropriate Permission Set to User/Group
+
+Master Account----IAM Identity Center--- AWS accounts----select---Assign users and group--- select <user/Group>---Next---- assign required Permission set---- submit

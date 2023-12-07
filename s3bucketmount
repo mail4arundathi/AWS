@@ -1,0 +1,36 @@
+  522  yum update
+  523  sudo yum install automake fuse fuse-devel gcc-c++ git libcurl-devel libxml2-devel make openssl-devel
+  535  sudo yum install s3fs-fuse
+  536  s3fs --version
+  524  git clone https://github.com/s3fs-fuse/s3fs-fuse.git
+  525  cd s3fs-fuse
+  526  ./autogen.sh
+  527  ./configure
+  528  make
+  529  sudo make install
+  531  echo AKIAZ3QVLAQZMCQSA5F3:86hQqNu3BopZhqEacU3nB+oLmBn5XUmg0oG3eZlG > /etc/passwd-s3fs
+  532  chmod 600 /etc/passwd-s3fs
+  533  mkdir /mnt/s3
+  534  sudo s3fs -o passwd_file=/etc/passwd-s3fs -o url=https://s3.amazonaws.com rrr1325 /mnt/s3
+
+  537  sudo s3fs -o passwd_file=/etc/passwd-s3fs -o url=https://s3.amazonaws.com rrr1325 /mnt/s3
+
+  538  vim /etc/fstab
+			s3fs#rrr1325 /mnt/s3 fuse _netdev,allow_other,passwd_file=/etc/passwd-s3fs,url=https://s3.amazonaws.com 0 0
+
+  539  mount -a
+  540  df -hT
+  
+[root@vitel2 ~]#df -hT
+Filesystem            Type       Size  Used Avail Use% Mounted on
+devtmpfs              devtmpfs   476M     0  476M   0% /dev
+tmpfs                 tmpfs      487M     0  487M   0% /dev/shm
+tmpfs                 tmpfs      487M   14M  473M   3% /run
+tmpfs                 tmpfs      487M     0  487M   0% /sys/fs/cgroup
+/dev/sda3             xfs         14G  3.4G  9.9G  26% /
+/dev/sda1             xfs        297M  152M  145M  52% /boot
+/dev/mapper/myvg-mylv ext4       477M  2.3M  445M   1% /lvm
+tmpfs                 tmpfs       98M     0   98M   0% /run/user/0
+s3fs                  fuse.s3fs  4.0G     0  4.0G   0% /mnt/s3
+[root@vitel2 ~]#
+

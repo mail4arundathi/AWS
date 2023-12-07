@@ -1,0 +1,48 @@
+#Creating an Amazon EC2 virtual server instance
+
+Sign in to the Amazon Web Services Management console.
+
+Go to Services > Compute, and click EC2.
+The system displays the EC2 Management Console page.
+
+Click Launch Instance.
+On the Choose an Amazon Machine Image (AMI) page, search for a Linux AMI, and click Select.
+You must select an image that includes the AWS command line tools.
+
+On the Choose an Instance Type page, select an instance type, and click Next: Configure Instance Details.
+
+On the Configure Instance Details page, do the following:
+In the Network field, click a VPC network.
+In the Network interfaces section, assign an IP address.
+Click Next: Add Storage.
+On the Add Storage page, leave the default settings, and click Next: Add Tags.
+On the Add Tags page, add a tag, and click Next: Configure Security Group.
+On the Configure Security Group page, create a new security group or select an existing security group, and click Review and Launch.
+On the Review Instance Launch page, review the details of each configuration, and then click Launch.
+
+On the Select an existing key pair or create a new key pair dialog box, select one of the following options:
+
+Choose an existing key pair: If you select this option, perform the following:
+
+From the Select a key pair drop-down list, select a key pair.
+
+Select the I acknowledge that I have access to the selected private key file (<example.pem>), and that without this file, I won't be able to log into my instance check box.
+
+Create a new key pair: If you select this option, perform the following:
+
+In the Key pair name field, type a name for the private key file. The extension of the private key file is .pem.
+
+Click Download Key Pair.
+
+Save the file in a secure and accessible location.
+
+Note:
+You will not be able to download the file again.
+
+Proceed without a key pair: If you select this option, select the I acknowledge that I will not be able to connect to this instance unless I already know the password built into this AMI check box.
+
+Click Launch Instances.
+The system creates the virtual server instance.
+
+Click Launch Status, and click View instance.
+When the system creates an instance, the Status Checks column displays the message: 2/2 checks passed.
