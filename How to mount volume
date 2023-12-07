@@ -1,0 +1,99 @@
+#How to add volume and how to attach,mount,umount volume to existing linux instance. 
+
+Step1: Launch an EC2 Linux instance which has default storage of 8GB
+Connect to the instance
+
+Step2: To check the storages 
+
+sudo su--- 
+lsblk  #Enlist all existing volumes in use
+
+Step3: To add additonal volume. -- #New volume
+Go to Elastic Block Store--- Volumes--- create volume
+
+Step4: Select required volume type (eg: general purpose SSD)
+Give requred size -- (eg: 1 to 16384 Gib)
+Region -- (match with instance)
+
+Step5: Attach the created volume
+Select the volume created-- Actions-- Attach volume-- select required instance.
+
+Note: Ensure that your EBS volume is attached 
+
+
+Step6 connect to the instance 
+sudo su		#connect to root user
+lsblk 		#enlist the storage
+
+Step7: make file system
+mkfs.xfs /dev/xvdf
+
+Step8: make directory
+mkdir /<directoryname> 
+eg: mkdir /vol
+
+Step9: mount the volume created 
+mount /dev/xvdf /<directoryname> 
+eg:mount /dev/xvdf /vol
+
+Step10:create files
+cd /<directoryname>	eg: cd/vol
+touch <filename>	eg:touch fileone
+touch<filename>		eg:touch filetwo
+
+#permanently mount the Newvolume
+Step11: vim /etc/fstab
+i
+/dev/xvdf /<directoryname> xfs defaults 00
+esc:wq
+mount -a  # to check mount errors
+df -Th
+
+step12: Stop you instance and start the instance to check
+sudo su
+lsblk
+
+Note: always connect to root user
+while creating directory use /<name of directory>--- represent root 
+
+#Temporarly mount the volume
+------------------------------
+Step1:  connect the root user
+sudo su
+
+Step2:To check volume is attached
+fdisk -l  
+
+Step3:To Mount this volume we have to create a file system
+mkfs.xfs /dev/xvdf
+mkdir<directoryname>
+mount /dev/xvdf /<directoryname>
+lsblk
+Note:In above process if we stop and start the instance
+the volume which we mounted will be unmounted 
+
+#How to unmount the EBS 
+sudo su
+umount /<directoryname>
+df -Th
+EC2 - EBS-Volume-Actions-Detachvolume
+
+#modify existing volume(ROOT USER VOLUME)
+Note: We can increase the volume with out stopping the instance.
+
+step1: Select the volume-- Actions-modify--increase required size.
+
+step2: connect to instance
+sudo su
+
+lsblk
+
+xfs_growfs /dev/xvdf
+
+lsblk
+
+step3 stop the instance and check weather the volume exists or not
+
+Note: Dont create filesystem before grow part existing data will be deleted
+
+
